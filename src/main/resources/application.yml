@@ -1,0 +1,72 @@
+server:
+  servlet:
+    context-path: /
+  forward-headers-strategy: framework
+  ssl:
+    enabled: true
+    key-store: classpath:springboot.p12
+    jks-key-store: classpath:springboot.jks
+    key-store-password: password
+    key-store-type: pkcs12
+    key-alias: springboot
+    key-password: password
+  port: 443
+
+logging:
+  level:
+    org.springframework.cloud.gateway.server.mvc: TRACE
+    org.springframework.web: TRACE
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+  application:
+    name: is-my-burguer-sd
+  cloud.gateway.mvc:
+    ssl:
+      useInsecureTrustManager: true
+
+eureka:
+  server:
+    remoteRegionTrustStore: classpath:springboot.p12
+    remoteRegionTrustStorePassword: password
+  instance:
+    hostname: ${spring.cloud.client.hostname}
+    preferIpAddress: false
+    secure-port: ${server.port}
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: ${spring.application.name}
+    home-page-url-path: https://${spring.cloud.client.hostname}:${server.port}/${server.servlet.context-path}/
+    status-page-url-path: https://${spring.cloud.client.hostname}:${server.port}/${server.servlet.context-path}/info
+    health-check-url: https://${spring.cloud.client.hostname}:${server.port}/${server.servlet.context-path}/health
+    lease-renewal-interval-in-seconds: 90
+  metadataMap:
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: https://${spring.cloud.client.hostname}:${server.port}/eureka
+    tls:
+      enabled: true
+      key-store: classpath:springboot.p12
+      key-store-password: password
+      key-store-type: pkcs12
+      key-alias: springboot
+      key-password: password
+      trust-store: classpath:springboot.p12
+      trust-store-password: password
+      trust-store-type: pkcs12
+info:
+  app:
+    name: ${spring.application.name}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

@@ -1,0 +1,16 @@
+services:
+  is-my-burguer-sd:
+    container_name: is-my-burguer-sd
+    image: docker.io/ismaelgcosta/is-my-burguer-sd:is-my-burguer-sd-1.1.1
+    build:
+        dockerfile: Dockerfile
+    ports:
+      - '127.0.0.1:443:443'
+    restart: unless-stopped
+    networks:
+      - ismyburguer-backend
+
+networks:
+  ismyburguer-backend:
+    external: false
+    driver: bridge
