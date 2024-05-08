@@ -1,0 +1,1348 @@
+info:
+  title: Is My Burguer API Gateway
+  description: Service API.
+  version: 1.0.0
+openapi: 3.0.1
+servers:
+  - url: https://localhost
+    description: Generated server url
+tags:
+  - name: Autenticação
+    description: Autenticação do Usuário
+  - name: Pedido
+    description: Gerenciamento de Pedidos
+  - name: Cliente
+    description: Gerenciamento de Clientes
+  - name: Produto
+    description: Gerenciamento de Produtos
+  - name: Controle de Pedidos
+    description: Controle de Pedidos
+  - name: Pagamentos
+    description: Gerenciamento de Pagamentos
+paths:
+  /produtos/{produtoId}:
+    get:
+      tags:
+        - Produto
+      description: Consultar Produto
+      operationId: obterProduto
+      parameters:
+        - name: produtoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarProdutoResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+    put:
+      tags:
+        - Produto
+      description: Alterar Produto
+      operationId: alterarProduto
+      parameters:
+        - name: produtoId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlterarProdutoRequest'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+    delete:
+      tags:
+        - Produto
+      description: Inativar Produto
+      operationId: inativarProduto
+      parameters:
+        - name: produtoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /pedidos/{pedidoId}:
+    get:
+      tags:
+        - Pedido
+      description: Consultar Pedido
+      operationId: obter
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarPedidoResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+    put:
+      tags:
+        - Pedido
+      description: Alterar Pedido
+      operationId: alterarPedido
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlterarPedidoRequest'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /pedidos/{pedidoId}/{status}:
+    put:
+      tags:
+        - Pedido
+      description: Alterar Status do Pedido
+      operationId: alterarStatusPedido
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: path
+          description: Status do Pedido
+          required: true
+          schema:
+            type: string
+            description: Status do Pedido
+            enum:
+              - ABERTO
+              - FECHADO
+              - AGUARDANDO_PAGAMENTO
+              - PAGO
+              - PAGAMENTO_NAO_AUTORIZADO
+              - RECEBIDO
+              - EM_PREPARACAO
+              - PRONTO
+              - FINALIZADO
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ProblemDetail'
+                  - type: object
+      security:
+        - Bearer-Authentication: []
+  /pedidos/{pedidoId}/checkout:
+    put:
+      tags:
+        - Pedido
+      description: Pedido Checkout
+      operationId: fecharPedido
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /controle-pedidos/{pedidoId}/retirada:
+    put:
+      tags:
+        - Controle de Pedidos
+      description: Retirar Pedido
+      operationId: retirarPedido
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /controle-pedidos/{pedidoId}/pronto:
+    put:
+      tags:
+        - Controle de Pedidos
+      description: Pedido Pronto
+      operationId: pedidoPronto
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /controle-pedidos/{pedidoId}/em-preparacao:
+    put:
+      tags:
+        - Controle de Pedidos
+      description: Preparar Pedido
+      operationId: prepararPedido
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /clientes/{clienteId}:
+    get:
+      tags:
+        - Cliente
+      description: Consultar Cliente por Email
+      operationId: obterClientePorId
+      parameters:
+        - name: clienteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarClienteResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+    put:
+      tags:
+        - Cliente
+      description: Alterar Cliente
+      operationId: alterarCliente
+      parameters:
+        - name: clienteId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlterarClienteRequest'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /pagamentos/{pedidoId}:
+    get:
+      tags:
+        - Pagamentos
+      description: Consultar Pagamento
+      operationId: obterPagamento
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConsultaPagamentoPedidoResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+    post:
+      tags:
+        - Pagamentos
+      description: Consultar Pagamento
+      operationId: pagar
+      parameters:
+        - name: pedidoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /user/token:
+    post:
+      tags:
+        - Autenticação
+      description: Gerar Token
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserToken'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /user/info:
+    post:
+      tags:
+        - Autenticação
+      description: Informações do Usuário Autenticado
+      operationId: userInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserInfoEntity'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /produtos:
+    post:
+      tags:
+        - Produto
+      description: Cadastrar Produto
+      operationId: cadastrarProduto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CriarProdutoRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: uuid
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /pedidos:
+    get:
+      tags:
+        - Pedido
+      description: Listar Pedidos
+      operationId: listar
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListarPedidoResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+    post:
+      tags:
+        - Pedido
+      description: Cadastrar Pedido
+      operationId: cadastrarPedido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CadastrarPedidoRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: uuid
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /clientes:
+    post:
+      tags:
+        - Cliente
+      description: Cadastrar Cliente
+      operationId: cadastrarCliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CriarClienteRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: uuid
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /auth/token:
+    post:
+      tags:
+        - Autenticação
+      description: Gerar Token para Client
+      operationId: login_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCredentialsLogin'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+  /auth/sign-up:
+    post:
+      tags:
+        - Autenticação
+      description: Cadastrar Usuário
+      operationId: login_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignUpRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /auth/sign-up/confirm:
+    post:
+      tags:
+        - Autenticação
+      description: Confirmar Cadastro de Usuário
+      operationId: login_3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmarCadastroRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /produtos/categorias/{categoria}:
+    get:
+      tags:
+        - Produto
+      description: Listar Produtos por Categoria
+      operationId: listarProdutos
+      parameters:
+        - name: categoria
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - LANCHE
+              - ACOMPANHAMENTO
+              - BEBIDA
+              - SOBREMESA
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListarProdutoResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /controle-pedidos:
+    get:
+      tags:
+        - Controle de Pedidos
+      description: Listar Pedidos Recebidos/Em Preparação/Prontos
+      operationId: listar_1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ListarControlePedidoResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /clientes/email/{email}:
+    get:
+      tags:
+        - Cliente
+      description: Consultar Cliente por Email
+      operationId: obterCliente
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarClienteResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+  /clientes/username/{username}:
+    get:
+      tags:
+        - Cliente
+      description: Consultar Cliente por Username
+      operationId: obterClientePorUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarClienteResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ProblemDetail'
+                  - type: object
+      security:
+        - Bearer-Authentication: []
+  /clientes/cpf/{cpf}:
+    get:
+      tags:
+        - Cliente
+      description: Consultar Cliente por Email
+      operationId: obterClientePorCpf
+      parameters:
+        - name: cpf
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BuscarClienteResponse'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '422':
+          description: Unprocessable Entity
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                  - $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - Bearer-Authentication: []
+components:
+  schemas:
+    ProblemDetail:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+          format: int32
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uri
+        properties:
+          type: object
+          additionalProperties:
+            type: object
+    AlterarProdutoRequest:
+      required:
+        - descricao
+      type: object
+      properties:
+        descricao:
+          maxLength: 2147483647
+          minLength: 3
+          type: string
+        categoria:
+          type: string
+          description: Categoria do Produto
+          enum:
+            - LANCHE
+            - ACOMPANHAMENTO
+            - BEBIDA
+            - SOBREMESA
+        preco:
+          type: number
+    AlterarItemPedidoRequest:
+      required:
+        - preco
+        - produtoId
+        - quantidade
+      type: object
+      properties:
+        produtoId:
+          type: string
+        quantidade:
+          minimum: 1
+          type: integer
+          format: int32
+        preco:
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+    AlterarPedidoRequest:
+      type: object
+      properties:
+        clienteId:
+          type: string
+        statusPedido:
+          type: string
+          description: Categoria do Produto
+          enum:
+            - ABERTO
+            - FECHADO
+            - PAGO
+            - RECEBIDO
+            - EM_PREPARACAO
+            - PRONTO
+            - FINALIZADO
+        itens:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/AlterarItemPedidoRequest'
+    AlterarClienteRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        sobrenome:
+          type: string
+    Login:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    UserToken:
+      type: object
+      properties:
+        idToken:
+          type: string
+        refreshToken:
+          type: string
+        accessToken:
+          type: string
+        expiresIn:
+          type: integer
+          format: int32
+        tokenType:
+          type: string
+    UserInfoEntity:
+      type: object
+      properties:
+        username:
+          type: string
+        cpf:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+    CriarProdutoRequest:
+      required:
+        - descricao
+      type: object
+      properties:
+        descricao:
+          maxLength: 2147483647
+          minLength: 3
+          type: string
+        categoria:
+          type: string
+          description: Categoria do Produto
+          enum:
+            - LANCHE
+            - ACOMPANHAMENTO
+            - BEBIDA
+            - SOBREMESA
+        preco:
+          type: number
+    CadastrarItemPedidoRequest:
+      required:
+        - preco
+        - produtoId
+        - quantidade
+      type: object
+      properties:
+        produtoId:
+          type: string
+        quantidade:
+          minimum: 1
+          type: integer
+          format: int32
+        preco:
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+    CadastrarPedidoRequest:
+      type: object
+      properties:
+        clienteId:
+          type: string
+        itens:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/CadastrarItemPedidoRequest'
+    CriarClienteRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        sobrenome:
+          type: string
+        email:
+          type: string
+        cpf:
+          type: string
+    ClientCredentialsLogin:
+      type: object
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+    UserSignUpRequest:
+      required:
+        - cpf
+        - email
+        - nome
+        - password
+      type: object
+      properties:
+        password:
+          type: string
+        email:
+          type: string
+        cpf:
+          type: string
+        nome:
+          type: string
+        sobrenome:
+          type: string
+    User:
+      type: object
+      properties:
+        clienteId:
+          type: string
+        nome:
+          type: string
+        sobrenome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+    ConfirmarCadastroRequest:
+      required:
+        - code
+        - cpf
+        - password
+      type: object
+      properties:
+        cpf:
+          type: string
+        password:
+          type: string
+        code:
+          type: string
+    BuscarProdutoResponse:
+      type: object
+      properties:
+        descricao:
+          type: string
+        categoria:
+          type: string
+        preco:
+          type: number
+    ListarProdutoResponse:
+      type: object
+      properties:
+        produtoId:
+          type: string
+        descricao:
+          type: string
+        categoria:
+          type: string
+        preco:
+          type: number
+    ListarPedidoResponse:
+      type: object
+      properties:
+        pedidoId:
+          type: string
+        clienteId:
+          type: string
+        status:
+          type: string
+        valorTotal:
+          type: number
+    BuscarItemPedidoResponse:
+      type: object
+      properties:
+        itemPedidoId:
+          type: string
+        produtoId:
+          type: string
+        quantidade:
+          type: integer
+          format: int32
+        preco:
+          type: number
+        valorTotal:
+          type: number
+    BuscarPedidoResponse:
+      type: object
+      properties:
+        pedidoId:
+          type: string
+        clienteId:
+          type: string
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuscarItemPedidoResponse'
+        status:
+          type: string
+        valorTotal:
+          type: number
+    ConsultaPagamentoPedidoResponse:
+      type: object
+      properties:
+        statusPagamento:
+          $ref: '#/components/schemas/StatusPagamentoResponse'
+        formaPagamento:
+          $ref: '#/components/schemas/FormaPagamentoResponse'
+        tipoPagamento:
+          $ref: '#/components/schemas/TipoPagamentoResponse'
+        qrCode:
+          type: string
+    FormaPagamentoResponse:
+      type: object
+      properties:
+        valor:
+          type: string
+        descricao:
+          type: string
+    StatusPagamentoResponse:
+      type: object
+      properties:
+        valor:
+          type: string
+        descricao:
+          type: string
+    TipoPagamentoResponse:
+      type: object
+      properties:
+        valor:
+          type: string
+        descricao:
+          type: string
+    ListarControlePedidoResponse:
+      type: object
+      properties:
+        pedidoId:
+          type: string
+        status:
+          type: string
+        recebidoEm:
+          type: string
+          format: date-time
+        inicioDaPreparacao:
+          type: string
+          format: date-time
+        fimDaPreparacao:
+          type: string
+          format: date-time
+    BuscarClienteResponse:
+      type: object
+      properties:
+        clienteId:
+          type: string
+        nome:
+          type: string
+        sobrenome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        username:
+          type: string
+  securitySchemes:
+    Bearer-Authentication:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

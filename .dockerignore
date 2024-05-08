@@ -79,3 +79,5 @@ terraform.rc
 
 #vs code
 *.code-workspace
+
+.github/*

@@ -45,20 +45,36 @@ spec:
         - name: is-my-burguer-sd
           resources:
             limits:
-              cpu: "1"
+              cpu: "2"
               memory: "300Mi"
             requests:
               cpu: "300m"
               memory: "300Mi"
           env:
-          image: docker.io/ismaelgcosta/is-my-burguer-sd:is-my-burguer-sd-1.1.1
+            - name: AWS_REGION
+              value: ${local.region}
+            - name: SERVICE_DISCOVERY_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: is-my-burguer-sd
+                  key: username
+            - name: SERVICE_DISCOVERY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: is-my-burguer-sd
+                  key: password
+            - name: AWS_COGNITO_USER_POOL_ID
+              valueFrom:
+                secretKeyRef:
+                  name: is-my-burguer-cognito
+                  key: user-pool-id
+          image: docker.io/ismaelgcosta/is-my-burguer-sd:${var.TF_VAR_IMAGE_VERSION}
           ports:
             - containerPort: 443
       restartPolicy: Always
 status: {}
 YAML
 }
-
 
 resource "kubectl_manifest" "is-my-burguer-sd-lb" {
   depends_on = [
@@ -104,7 +120,7 @@ spec:
     kind: Deployment
     name: is-my-burguer-sd
     namespace: is-my-burguer
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 2
   behavior:
     scaleDown:
@@ -117,17 +133,40 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 1 # para forçar o kubernets escalar com 1% de cpu
+        averageUtilization: 80 # para forçar o kubernets escalar com 80% de cpu
 status:
   observedGeneration: 0
   lastScaleTime:
-  currentReplicas: 0
+  currentReplicas: 1
   desiredReplicas: 2
   currentMetrics:
   - type: Resource
     resource:
       name: cpu
 YAML
+}
+
+resource "kubernetes_secret" "is-my-burguer-sd" {
+
+   depends_on = [
+     data.aws_eks_cluster.cluster,
+     kubectl_manifest.is-my-burguer-namespace
+   ]
+
+   metadata {
+     name      = "is-my-burguer-sd"
+     namespace = "is-my-burguer"
+   }
+
+   immutable = false
+
+   data = {
+     username = "${var.TF_VAR_SERVICE_DISCOVERY_USERNAME}",
+     password = "${var.TF_VAR_SERVICE_DISCOVERY_PASSWORD}"
+   }
+
+   type = "kubernetes.io/basic-auth"
+
 }
 
 

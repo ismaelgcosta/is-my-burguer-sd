@@ -22,9 +22,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -80,9 +81,10 @@ public class RefreshablePeerEurekaNodes extends PeerEurekaNodes implements Appli
                 hostname = serviceUrl;
             }
 
-            File file = new ClassPathResource("springboot.jks").getFile();
             File springboot = File.createTempFile("springboot", ".jks");
-            FileCopyUtils.copy(file, springboot);
+            try (InputStream inputStream = getClass().getResourceAsStream("/springboot.jks")) {
+                 FileCopyUtils.copy(inputStream.readAllBytes(), springboot);
+            }
 
             String jerseyClientName = "Discovery-PeerNodeClient-" + hostname;
             EurekaJersey3ClientImpl.EurekaJersey3ClientBuilder clientBuilder = new EurekaJersey3ClientImpl.EurekaJersey3ClientBuilder()

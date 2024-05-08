@@ -15,4 +15,5 @@ public class ServerConfiguration implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         servletContext.setInitParameter("org.eclipse.jetty.servlet.SessionIdPathParameterName", "none");
     }
+    
 }

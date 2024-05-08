@@ -57,6 +57,9 @@ spring:
 
     oauth2:
       client:
+        registration:
+          cognito:
+            client-id: ${CLIENT_CREDENTIALS_ID}
         provider:
           cognito:
             authorization-uri: https://${aws.cognito.domain}.auth.${aws.region}.amazoncognito.com/oauth2/authorize
@@ -78,7 +81,7 @@ eureka:
     remoteRegionTrustStore: classpath:springboot.p12
     remoteRegionTrustStorePassword: password
   instance:
-    hostname: ${spring.cloud.client.hostname}
+    hostname: is-my-burguer-sd-lb
     preferIpAddress: false
     secure-port: ${server.port}
     secure-port-enabled: true
@@ -94,7 +97,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: https://${SERVICE_DISCOVERY_USERNAME}:${SERVICE_DISCOVERY_PASSWORD}@${spring.cloud.client.hostname}:${server.port}/eureka
+      defaultZone: https://${SERVICE_DISCOVERY_USERNAME}:${SERVICE_DISCOVERY_PASSWORD}@is-my-burguer-sd-lb/eureka
     tls:
       enabled: true
       key-store: classpath:springboot.p12

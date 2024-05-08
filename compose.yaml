@@ -1,9 +1,16 @@
 services:
   is-my-burguer-sd:
     container_name: is-my-burguer-sd
-    image: docker.io/ismaelgcosta/is-my-burguer-sd:is-my-burguer-sd-1.1.1
+    image: docker.io/ismaelgcosta/is-my-burguer-sd:is-my-burguer-sd-1.2.5
     build:
         dockerfile: Dockerfile
+    environment:
+      - AWS_COGNITO_USER_POOL_ID
+      - CLIENT_CREDENTIALS_ID
+      - CLIENT_DOMAIN
+      - AWS_REGION
+      - SERVICE_DISCOVERY_USERNAME
+      - SERVICE_DISCOVERY_PASSWORD
     ports:
       - '127.0.0.1:443:443'
     restart: unless-stopped
