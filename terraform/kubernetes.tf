@@ -46,10 +46,10 @@ spec:
           resources:
             limits:
               cpu: "2"
-              memory: "300Mi"
+              memory: "512Mi"
             requests:
-              cpu: "300m"
-              memory: "300Mi"
+              cpu: "512m"
+              memory: "512Mi"
           env:
             - name: AWS_REGION
               value: ${local.region}

@@ -1,7 +1,7 @@
 services:
   is-my-burguer-sd:
     container_name: is-my-burguer-sd
-    image: docker.io/ismaelgcosta/is-my-burguer-sd:is-my-burguer-sd-1.2.5
+    image: docker.io/ismaelgcosta/is-my-burguer-sd:is-my-burguer-sd-1.2.6
     build:
         dockerfile: Dockerfile
     environment:
