@@ -16,7 +16,7 @@ server:
     key-store-type: pkcs12
     key-alias: springboot
     key-password: password
-  port: 443
+  port: 8443
 
 logging:
   level:
