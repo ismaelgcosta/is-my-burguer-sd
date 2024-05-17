@@ -1,8 +1,10 @@
 package br.com.ismyburguer.auth;
 
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,16 +30,19 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
 
     @Value("${spring.security.oauth2.client.resourceserver.cognito.issuer-uri}")
+    @Setter
     private String issuerUri;
 
     @Value("${spring.security.user.name}")
+    @Setter
     private String userName;
 
     @Value("${spring.security.user.password}")
+    @Setter
     private String userPassword;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
@@ -57,12 +62,13 @@ public class SecurityConfiguration {
                             .authenticated();
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
-                .authenticationProvider(new JwtAuthenticationProvider(jwtDecoder()))
+                .authenticationProvider(new JwtAuthenticationProvider(jwtDecoder))
         ;
         return http.build();
     }
 
     @Bean
+    @Profile(value = {"dev", "production"})
     public JwtDecoder jwtDecoder() {
         return JwtDecoders.fromIssuerLocation(issuerUri);
     }

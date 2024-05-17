@@ -1,3 +1,9 @@
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.6.1
+
 server:
   servlet:
     context-path: /
@@ -39,7 +45,7 @@ aws:
 
 spring:
   profiles:
-    active: dev
+    active: test
 
   cloud:
     gateway:
@@ -97,7 +103,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: https://${SERVICE_DISCOVERY_USERNAME}:${SERVICE_DISCOVERY_PASSWORD}@${spring.cloud.client.hostname}:${server.port}/eureka
+      defaultZone: https://localhost:${server.port}/eureka
     tls:
       enabled: true
       key-store: classpath:springboot.p12

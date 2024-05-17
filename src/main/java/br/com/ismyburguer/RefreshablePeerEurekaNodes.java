@@ -15,15 +15,14 @@ import com.netflix.eureka.transport.Jersey3DynamicGZIPContentEncodingFilter;
 import com.netflix.eureka.transport.Jersey3ReplicationClient;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientRequestFilter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
 import org.springframework.cloud.netflix.eureka.server.ReplicationClientAdditionalFilters;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -31,19 +30,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Component
 public class RefreshablePeerEurekaNodes extends PeerEurekaNodes implements ApplicationListener<EnvironmentChangeEvent> {
 
-    private ReplicationClientAdditionalFilters replicationClientAdditionalFilters;
-
+    private final ReplicationClientAdditionalFilters replicationClientAdditionalFilters;
 
     @Value("${server.ssl.jks-key-store}")
+    @Setter
     private String keyStoreFile;
 
-
     @Value("${server.ssl.key-store-password}")
+    @Setter
     private String keyStorePassword;
 
     RefreshablePeerEurekaNodes(final PeerAwareInstanceRegistry registry, final EurekaServerConfig serverConfig,
@@ -106,10 +106,11 @@ public class RefreshablePeerEurekaNodes extends PeerEurekaNodes implements Appli
             throw new RuntimeException("Cannot Create new Replica Node :" + name, e);
         }
 
-        String ip = null;
+        String ip;
         try {
             ip = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
         }
 
         Client jerseyApacheClient = jerseyClient.getClient();
@@ -130,6 +131,16 @@ public class RefreshablePeerEurekaNodes extends PeerEurekaNodes implements Appli
         if (shouldUpdate(event.getKeys())) {
             updatePeerEurekaNodes(resolvePeerUrls());
         }
+    }
+
+    @Override
+    public void updatePeerEurekaNodes(List<String> newPeerUrls) {
+        super.updatePeerEurekaNodes(newPeerUrls);
+    }
+
+    @Override
+    public List<String> resolvePeerUrls() {
+        return super.resolvePeerUrls();
     }
 
     /*
