@@ -61,6 +61,7 @@ permissions:
   # with sigstore/fulcio when running outside of PRs.
   id-token: write
 
+
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
