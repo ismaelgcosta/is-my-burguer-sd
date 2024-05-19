@@ -70,3 +70,4 @@ terraform.rc
 
 #vs code
 *.code-workspace
+/docs/.$is-my-burguer-api.drawio.bkp

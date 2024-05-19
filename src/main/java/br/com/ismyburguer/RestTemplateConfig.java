@@ -2,6 +2,7 @@ package br.com.ismyburguer;
 
 import com.netflix.appinfo.AmazonInfo;
 import com.netflix.appinfo.ApplicationInfoManager;
+import com.netflix.appinfo.MyDataCenterInstanceConfig;
 import com.netflix.discovery.EurekaClientConfig;
 import com.netflix.discovery.shared.transport.EurekaHttpClient;
 import com.netflix.eureka.EurekaServerConfig;
@@ -57,8 +58,8 @@ public class RestTemplateConfig {
     @Profile("!default")
     public EurekaInstanceConfigBean eurekaInstanceConfig(InetUtils inetUtils) {
         EurekaInstanceConfigBean b = new EurekaInstanceConfigBean(inetUtils);
-        AmazonInfo info = AmazonInfo.Builder.newBuilder().autoBuild("eureka");
-        b.setDataCenterInfo(info);
+        MyDataCenterInstanceConfig info = new MyDataCenterInstanceConfig("eureka");
+        b.setDataCenterInfo(info.getDataCenterInfo());
         return b;
     }
 
