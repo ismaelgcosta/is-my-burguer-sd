@@ -23,7 +23,7 @@ Ter o Java 20 instalado na sua máquina:
 # Swagger
 http://localhost/swagger-ui/index.html
 
-# ReDoc
+# Eureka
 http://localhost
 
 # Terraform
