@@ -38,6 +38,9 @@ aws:
     user-pool-id: ${AWS_COGNITO_USER_POOL_ID}
 
 spring:
+  profiles:
+    active: production
+
   cloud:
     gateway:
       httpclient:
