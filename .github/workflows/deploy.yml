@@ -90,6 +90,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: mvn clean install verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ismaelgcosta_is-my-burguer-sd
 
   docker-build:
@@ -114,7 +115,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build the Docker image
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-sd:${{env.IMAGE_NAME}}
 
       - name: Push the Docker image
