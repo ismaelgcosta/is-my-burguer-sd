@@ -92,36 +92,36 @@ public class RoutesSteps {
 
     @Then("a rota de autenticação deve corresponder ao esperado")
     public void a_rota_de_autenticacao_deve_corresponder_ao_esperado() {
-        assertThat(rota.toString()).isEqualTo(rotas.auth().toString());
+        assertThat(rota).hasToString(rotas.auth().toString());
     }
 
     @Then("a rota de clientes deve corresponder ao esperado")
     public void a_rota_de_clientes_deve_corresponder_ao_esperado() {
-        assertThat(rota.toString()).isEqualTo(rotas.clientes().toString());
+        assertThat(rota).hasToString(rotas.clientes().toString());
     }
 
     @Then("a rota de usuários deve corresponder ao esperado")
     public void a_rota_de_usuarios_deve_corresponder_ao_esperado() {
-        assertThat(rota.toString()).isEqualTo(rotas.users().toString());
+        assertThat(rota).hasToString(rotas.users().toString());
     }
 
     @Then("a rota de pedidos deve corresponder ao esperado")
     public void a_rota_de_pedidos_deve_corresponder_ao_esperado() {
-        assertThat(rota.toString()).isEqualTo(rotas.pedidos().toString());
+        assertThat(rota).hasToString(rotas.pedidos().toString());
     }
 
     @Then("a rota de produtos deve corresponder ao esperado")
     public void a_rota_de_produtos_deve_corresponder_ao_esperado() {
-        assertThat(rota.toString()).isEqualTo(rotas.produtos().toString());
+        assertThat(rota).hasToString(rotas.produtos().toString());
     }
 
     @Then("a rota de pagamentos deve corresponder ao esperado")
     public void a_rota_de_pagamentos_deve_corresponder_ao_esperado() {
-        assertThat(rota.toString()).isEqualTo(rotas.pagamentos().toString());
+        assertThat(rota).hasToString(rotas.pagamentos().toString());
     }
 
     @Then("a rota de controle de pedidos deve corresponder ao esperado")
     public void a_rota_de_controle_de_pedidos_deve_corresponder_ao_esperado() {
-        assertThat(rota.toString()).isEqualTo(rotas.controlePedidos().toString());
+        assertThat(rota).hasToString(rotas.controlePedidos().toString());
     }
 }
