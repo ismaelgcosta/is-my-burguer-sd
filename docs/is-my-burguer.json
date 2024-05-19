@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "5790b9a5-2ec8-4bb1-bcea-4a04fc85915b",
+		"name": "is-my-burguer - Gerenciamento de Clientes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "62471"
+	},
+	"item": [
+		{
+			"name": "Criar Lanche",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"descricao\": \"X-Tudão 2.0\",\r\n  \"categoria\": \"LANCHE\",\r\n  \"preco\": 15.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/produtos"
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Sobremesa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"descricao\": \"Sunday de Morango\",\r\n  \"categoria\": \"SOBREMESA\",\r\n  \"preco\": 3.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/produtos"
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Bebida",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"descricao\": \"Energy Drink Zero Açúcar\",\r\n  \"categoria\": \"BEBIDA\",\r\n  \"preco\": 6.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/produtos"
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Produto",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"descricao\": \"Lanche Monstro Extra Bacon\",\r\n  \"categoria\": \"LANCHE\",\r\n  \"preco\": 17.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/produtos/298d1869-2051-40d4-a103-02f1c73be0a6"
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Lanches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:31080/produtos/categorias/LANCHE"
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Sobremesas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:31080/produtos/categorias/SOBREMESA"
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Bebidas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:31080/produtos/categorias/BEBIDA"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Produto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:31080/produtos/298d1869-2051-40d4-a103-02f1c73be0a6"
+			},
+			"response": []
+		},
+		{
+			"name": "Inativar Produto",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:31080/produtos/01ba2738-f74f-46f0-b86f-d75d7c5668b9"
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar Cliente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Fulano\",\r\n  \"sobrenome\": \"da Silva Sauro\",\r\n  \"email\": \"fulanodasilva@fulanodasilva.com\",\r\n  \"cpf\": \"12345678909\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/clientes"
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar Cliente Email Inválido",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\" : \"João\",\r\n    \"sobrenome\" : \" da Silva Sauro\",\r\n    \"email\" : \"joaodasilvasauro\",\r\n    \"cpf\" : \"12345678909\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/clientes"
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar Cliente CPF Inválido",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Fulano\",\r\n  \"sobrenome\": \"da Silva Sauro\",\r\n  \"email\": \"fulanodasilva@fulanodasilva.com\",\r\n  \"cpf\": \"12345678901\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/clientes"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Cliente por Email",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/clientes/email/fulanodasilva@fulanodasilva.com",
+				"description": "Buscar cliente por email"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Cliente por Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/clientes/bd7977bc-ff7b-4793-a1c7-1bb38cec9f7b",
+				"description": "Buscar cliente por email"
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Cliente",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Fulano\",\r\n  \"sobrenome\": \"da Silva Sauro e Sauro\",\r\n  \"email\": \"fulano@fulanodasilva.com\",\r\n  \"cpf\": \"12345678909\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/clientes/bd7977bc-ff7b-4793-a1c7-1bb38cec9f7b"
+			},
+			"response": []
+		},
+
+		{
+			"name": "Consultar Fila de Pedidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:31080/controle-pedidos"
+			},
+			"response": []
+		},
+		{
+			"name": "Mover Pedido para Em Preparação",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    },\r\n    {\r\n        \"produtoId\": \"550858dd-bf71-44fc-9eb0-dd38f22d079a\",\r\n        \"descricao\": \"Sunday de Morango\",\r\n        \"quantidade\": \"4\",\r\n        \"preco\": 3.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/controle-pedidos/b0f72cb4-3f9d-406e-92d7-a94fe7dce36a/em-preparacao"
+			},
+			"response": []
+		},
+		{
+			"name": "Mover Pedido para Pronto",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    },\r\n    {\r\n        \"produtoId\": \"550858dd-bf71-44fc-9eb0-dd38f22d079a\",\r\n        \"descricao\": \"Sunday de Morango\",\r\n        \"quantidade\": \"4\",\r\n        \"preco\": 3.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/controle-pedidos/b0f72cb4-3f9d-406e-92d7-a94fe7dce36a/pronto"
+			},
+			"response": []
+		},
+		{
+			"name": "Retirar Pedido",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    },\r\n    {\r\n        \"produtoId\": \"550858dd-bf71-44fc-9eb0-dd38f22d079a\",\r\n        \"descricao\": \"Sunday de Morango\",\r\n        \"quantidade\": \"4\",\r\n        \"preco\": 3.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/controle-pedidos/b0f72cb4-3f9d-406e-92d7-a94fe7dce36a/retirada"
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Pedido Inválido",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clienteId\": \"42fd4b15-4281-4476-8f27-fafac3a6a8d3\",\r\n  \"itens\": [\r\n    {\r\n      \"produtoId\": \"42fd4b15-4281-4476-8f27-fafac3a6a8d3\",\r\n      \"quantidade\": 1,\r\n      \"preco\": 0.01\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/pedidos"
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Pedido",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/pedidos"
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Pedido",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    },\r\n    {\r\n        \"produtoId\": \"550858dd-bf71-44fc-9eb0-dd38f22d079a\",\r\n        \"descricao\": \"Sunday de Morango\",\r\n        \"quantidade\": \"4\",\r\n        \"preco\": 3.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/pedidos/b0f72cb4-3f9d-406e-92d7-a94fe7dce36a"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Pedido",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/pedidos/b0f72cb4-3f9d-406e-92d7-a94fe7dce36a"
+			},
+			"response": []
+		},
+		{
+			"name": "Pedido Checkout",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    },\r\n    {\r\n        \"produtoId\": \"550858dd-bf71-44fc-9eb0-dd38f22d079a\",\r\n        \"descricao\": \"Sunday de Morango\",\r\n        \"quantidade\": \"4\",\r\n        \"preco\": 3.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/pedidos/b0f72cb4-3f9d-406e-92d7-a94fe7dce36a/checkout"
+			},
+			"response": []
+		},
+		{
+			"name": "Pagar Pedido",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itens\": [\r\n    {\r\n        \"produtoId\": \"beab006c-6ab3-4c42-b526-10e686802771\",\r\n        \"descricao\": \"X-Tudão\",\r\n        \"quantidade\": 2,\r\n        \"preco\": 15.50\r\n    },\r\n    {\r\n        \"produtoId\": \"a1ca74a4-fdd5-4fcc-9ac9-0e35475e030e\",\r\n        \"descricao\": \"Energy Drink Uva\",\r\n        \"quantidade\": 10,\r\n        \"preco\": 5.50\r\n    },\r\n    {\r\n        \"produtoId\": \"550858dd-bf71-44fc-9eb0-dd38f22d079a\",\r\n        \"descricao\": \"Sunday de Morango\",\r\n        \"quantidade\": \"4\",\r\n        \"preco\": 3.50\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:31080/pedidos/b0f72cb4-3f9d-406e-92d7-a94fe7dce36a/pagamento"
+			},
+			"response": []
+		}
+	]
+}
