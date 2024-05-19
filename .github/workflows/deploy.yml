@@ -61,6 +61,7 @@ permissions:
   # with sigstore/fulcio when running outside of PRs.
   id-token: write
 
+
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
@@ -90,7 +91,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: mvn clean install verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ismaelgcosta_is-my-burguer-sd
 
   docker-build:
