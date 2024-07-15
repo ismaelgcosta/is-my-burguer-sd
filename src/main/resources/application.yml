@@ -1,7 +1,11 @@
 server:
   servlet:
     context-path: /
-  forward-headers-strategy: framework
+
+    session:
+      cookie:
+        same-site: lax
+        forward-headers-strategy: framework
   ssl:
     enabled: true
     key-store: classpath:springboot.p12
@@ -20,6 +24,8 @@ logging:
 springdoc:
   version: '@springdoc.version@'
   swagger-ui:
+    csrf:
+      enabled: true
     display-request-duration: true
     groups-order: DESC
     operationsSorter: method
@@ -117,3 +123,4 @@ management:
     web:
       exposure:
         include: '*'
+

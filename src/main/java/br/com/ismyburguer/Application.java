@@ -3,6 +3,7 @@ package br.com.ismyburguer;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
