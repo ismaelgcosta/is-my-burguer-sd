@@ -2,12 +2,12 @@ package br.com.ismyburguer.auth;
 
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +19,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,8 +45,21 @@ public class SecurityConfiguration {
     private String userPassword;
 
     @Bean
+    public CookieSameSiteSupplier applicationCookieSameSiteSupplier() {
+        return CookieSameSiteSupplier.ofStrict();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.headers(headers ->
+                        headers.contentTypeOptions(withDefaults())
+                                .xssProtection(
+                                        xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
+                                ).contentSecurityPolicy(
+                                        cps -> cps.policyDirectives("script-src 'self'").policyDirectives("style-src 'self'")
+                                )
+                                .cacheControl(withDefaults())
+                )
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .authorizeHttpRequests(authz -> {
@@ -57,13 +73,19 @@ public class SecurityConfiguration {
                                     "/produtos/**",
                                     "/clientes/**",
                                     "/pedidos/**",
+                                    "/pagamentos/**",
                                     "/controle-pedidos/**"
                             )
                             .authenticated();
                 })
+                .cors(withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
-                .authenticationProvider(new JwtAuthenticationProvider(jwtDecoder))
-        ;
+                .authenticationProvider(new JwtAuthenticationProvider(jwtDecoder));
+
+        http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringRequestMatchers("/eureka/**")
+                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+        );
         return http.build();
     }
 

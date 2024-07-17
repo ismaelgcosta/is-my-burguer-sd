@@ -346,13 +346,13 @@
         ]
       }
     },
-    "/pedidos/{pedidoId}/{status}": {
+    "/pedidos/{pedidoId}/pagamento": {
       "put": {
         "tags": [
           "Pedido"
         ],
-        "description": "Alterar Status do Pedido",
-        "operationId": "alterarStatusPedido",
+        "description": "Pagar Pedido",
+        "operationId": "pagarPedido",
         "parameters": [
           {
             "name": "pedidoId",
@@ -361,33 +361,9 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "status",
-            "in": "path",
-            "description": "Status do Pedido",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "Status do Pedido",
-              "enum": [
-                "ABERTO",
-                "FECHADO",
-                "AGUARDANDO_PAGAMENTO",
-                "PAGO",
-                "PAGAMENTO_NAO_AUTORIZADO",
-                "RECEBIDO",
-                "EM_PREPARACAO",
-                "PRONTO",
-                "FINALIZADO"
-              ]
-            }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
           "404": {
             "description": "Not Found",
             "content": {
@@ -405,15 +381,18 @@
                 "schema": {
                   "oneOf": [
                     {
-                      "$ref": "#/components/schemas/ProblemDetail"
+                      "type": "object"
                     },
                     {
-                      "type": "object"
+                      "$ref": "#/components/schemas/ProblemDetail"
                     }
                   ]
                 }
               }
             }
+          },
+          "200": {
+            "description": "OK"
           }
         },
         "security": [
@@ -835,30 +814,52 @@
             "Bearer-Authentication": []
           }
         ]
-      },
-      "post": {
+      }
+    },
+    "/pagamentos/{pagamentoId}/{statusPagamento}": {
+      "put": {
         "tags": [
           "Pagamentos"
         ],
-        "description": "Consultar Pagamento",
-        "operationId": "pagar",
+        "description": "Aprovar/Reprovar Pagamento",
+        "operationId": "alterarPagamento",
         "parameters": [
           {
-            "name": "pedidoId",
+            "name": "pagamentoId",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "statusPagamento",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AGUARDANDO_CONFIRMACAO",
+                "NAO_AUTORIZADO",
+                "PAGO"
+              ]
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
+          "422": {
+            "description": "Unprocessable Entity",
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "string"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetail"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
                 }
               }
             }
@@ -873,22 +874,8 @@
               }
             }
           },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "type": "object"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ProblemDetail"
-                    }
-                  ]
-                }
-              }
-            }
+          "200": {
+            "description": "OK"
           }
         },
         "security": [
@@ -1568,6 +1555,62 @@
         ]
       }
     },
+    "/controle-pedidos/{pedidoId}": {
+      "delete": {
+        "tags": [
+          "Controle de Pedidos"
+        ],
+        "description": "Cancelar Pedido",
+        "operationId": "cancelarPedido",
+        "parameters": [
+          {
+            "name": "pedidoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ProblemDetail"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetail"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "Bearer-Authentication": []
+          }
+        ]
+      }
+    },
     "/clientes/email/{email}": {
       "get": {
         "tags": [
@@ -2187,6 +2230,10 @@
       "ConsultaPagamentoPedidoResponse": {
         "type": "object",
         "properties": {
+          "pagamentoId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "statusPagamento": {
             "$ref": "#/components/schemas/StatusPagamentoResponse"
           },

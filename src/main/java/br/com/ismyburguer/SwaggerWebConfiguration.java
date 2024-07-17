@@ -30,8 +30,8 @@ public class SwaggerWebConfiguration implements WebMvcConfigurer {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.addAllowedHeader("Content-Type, api_key, Authorization");
+        config.addAllowedMethod("GET, POST, DELETE, PUT, PATCH, OPTIONS");
 
         source.registerCorsConfiguration("/v3/api-docs", config);
         return new CorsFilter(source);
