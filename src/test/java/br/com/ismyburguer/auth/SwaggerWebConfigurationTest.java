@@ -34,8 +34,8 @@ public class SwaggerWebConfigurationTest {
         assertNotNull(config);
 
         assertTrue(config.getAllowedOrigins().contains("*"));
-        assertTrue(config.getAllowedHeaders().contains("*"));
-        assertTrue(config.getAllowedMethods().contains("*"));
+        assertTrue(config.getAllowedHeaders().contains("Content-Type, api_key, Authorization"));
+        assertTrue(config.getAllowedMethods().contains("GET, POST, DELETE, PUT, PATCH, OPTIONS"));
         assertTrue(config.getAllowCredentials());
     }
 }
