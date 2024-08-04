@@ -83,7 +83,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(new JwtAuthenticationProvider(jwtDecoder));
 
         http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/eureka/**")
+                .ignoringRequestMatchers("/eureka/**") // NOSONAR
                 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
         );
         return http.build();
