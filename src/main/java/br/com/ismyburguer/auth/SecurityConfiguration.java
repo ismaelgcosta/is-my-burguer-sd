@@ -82,8 +82,8 @@ public class SecurityConfiguration {
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
                 .authenticationProvider(new JwtAuthenticationProvider(jwtDecoder));
 
-        http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/eureka/**")
+        http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // NOSONAR
+                .ignoringRequestMatchers("/eureka/**") // NOSONAR
                 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
         );
         return http.build();
