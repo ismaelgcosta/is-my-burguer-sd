@@ -1,6 +1,6 @@
 # Is My Burguer SD (Service Discovery) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=ismaelgcosta_is-my-burguer-sd)](https://sonarcloud.io/summary/new_code?id=ismaelgcosta_is-my-burguer-sd)
 
-Projeto para aplicação de conhecimentos da Fase 4 da Pós-Graduação em SOFTWARE ARCHITECTURE da FIAP
+Projeto para aplicação de conhecimentos da Fase 5 da Pós-Graduação em SOFTWARE ARCHITECTURE da FIAP
 
 
 ## Estrutura na AWS
